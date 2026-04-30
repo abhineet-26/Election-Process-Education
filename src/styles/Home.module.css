@@ -1,0 +1,160 @@
+.main {
+  width: 100%;
+  padding-bottom: 6rem; /* space for navbar */
+}
+
+.section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 2rem;
+  position: relative;
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+}
+
+.heroTitle {
+  font-size: 4rem;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 1s ease-out;
+}
+
+.heroSubtitle {
+  font-size: 1.5rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+  animation: fadeUp 1s ease-out 0.2s backwards;
+}
+
+/* Why Vote Section */
+.whyVoteGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  max-width: 1000px;
+  margin-top: 3rem;
+}
+
+.card {
+  padding: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 35px rgba(255, 94, 58, 0.2);
+}
+
+.cardIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Announcements Section */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 800px;
+  margin-top: 3rem;
+}
+
+.timelineItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  padding: 1.5rem;
+}
+
+.dateBadge {
+  background: var(--accent);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-pill);
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* Chat Assistant Section */
+.chatContainerWrapper {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 2rem;
+}
+
+/* Contact Section */
+.contactForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 500px;
+  padding: 2.5rem;
+  margin-top: 3rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  color: white;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.submitBtn {
+  background: linear-gradient(135deg, #FF5E3A, #FF2A85);
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: var(--radius-pill);
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.submitBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px var(--accent-glow);
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .heroTitle { font-size: 2.5rem; }
+  .heroSubtitle { font-size: 1.2rem; }
+  .timelineItem { flex-direction: column; gap: 0.5rem; }
+}
