@@ -1,6 +1,9 @@
+"use client";
+
 import React from "react";
 import ChatInterface from "../components/ChatInterface";
 import styles from "../styles/Home.module.css";
+import { Vote, Users, ShieldCheck } from "lucide-react";
 
 export default function Home() {
   return (
@@ -27,17 +30,17 @@ export default function Home() {
         
         <div className={styles.whyVoteGrid}>
           <div className={`${styles.card} glass-panel`}>
-            <div className={styles.cardIcon}>🗳️</div>
+            <div className={styles.cardIconWrapper}><Vote size={48} strokeWidth={1.5} /></div>
             <h3 className={styles.cardTitle}>Shape Policies</h3>
             <p style={{ color: 'var(--text-secondary)' }}>Elect leaders who align with your vision for the future of education, healthcare, and infrastructure.</p>
           </div>
           <div className={`${styles.card} glass-panel`}>
-            <div className={styles.cardIcon}>✊</div>
+            <div className={styles.cardIconWrapper}><Users size={48} strokeWidth={1.5} /></div>
             <h3 className={styles.cardTitle}>It's Your Right</h3>
             <p style={{ color: 'var(--text-secondary)' }}>Millions fought for the right to vote. Exercising it honors that legacy and strengthens democracy.</p>
           </div>
           <div className={`${styles.card} glass-panel`}>
-            <div className={styles.cardIcon}>🔥</div>
+            <div className={styles.cardIconWrapper}><ShieldCheck size={48} strokeWidth={1.5} /></div>
             <h3 className={styles.cardTitle}>Demand Accountability</h3>
             <p style={{ color: 'var(--text-secondary)' }}>Voting is the most powerful tool to hold representatives accountable for their actions.</p>
           </div>

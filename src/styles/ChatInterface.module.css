@@ -6,7 +6,7 @@
   -webkit-backdrop-filter: blur(var(--glass-blur));
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-xl);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: var(--glass-shadow);
   height: 60vh;
   min-height: 400px;
   overflow: hidden;
@@ -23,23 +23,24 @@
 
 .message {
   max-width: 80%;
-  padding: 1rem;
+  padding: 1rem 1.25rem;
   border-radius: var(--radius-lg);
   line-height: 1.5;
   animation: fadeIn 0.3s ease-out;
-  color: white;
+  color: var(--text-primary);
 }
 
 .userMessage {
   align-self: flex-end;
-  background: linear-gradient(135deg, #FF5E3A, #FF2A85);
+  background: var(--accent);
+  color: white;
   border-bottom-right-radius: 0;
-  box-shadow: 0 4px 15px rgba(255, 94, 58, 0.3);
+  box-shadow: 0 4px 15px var(--accent-glow);
 }
 
 .botMessage {
   align-self: flex-start;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   border-bottom-left-radius: 0;
 }
@@ -47,47 +48,52 @@
 .inputArea {
   display: flex;
   padding: 1rem;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.05);
   border-top: 1px solid var(--glass-border);
   gap: 0.5rem;
+}
+
+[data-theme='dark'] .inputArea {
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .input {
   flex-grow: 1;
   padding: 0.75rem 1rem;
   border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-pill);
   font-size: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  color: white;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  background: var(--bg-color);
+  color: var(--text-primary);
+  transition: all 0.2s;
 }
 
 .input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-secondary);
 }
 
 .input:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 10px rgba(255, 94, 58, 0.2);
+  box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
 .sendButton {
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, #FF5E3A, #FF2A85);
+  background: var(--accent);
   color: white;
   border: none;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-pill);
   font-size: 1rem;
-  font-weight: bold;
+  font-weight: 700;
   cursor: pointer;
-  transition: transform 0.1s, box-shadow 0.2s;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .sendButton:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(255, 94, 58, 0.4);
+  box-shadow: 0 5px 15px var(--accent-glow);
+  background: var(--accent-secondary);
 }
 
 .sendButton:active:not(:disabled) {
@@ -95,17 +101,17 @@
 }
 
 .sendButton:disabled {
-  background: rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.3);
+  background: var(--glass-border);
+  color: var(--text-secondary);
   cursor: not-allowed;
 }
 
 .loadingIndicator {
   display: flex;
-  gap: 0.25rem;
-  padding: 1rem;
+  gap: 0.4rem;
+  padding: 1rem 1.25rem;
   align-self: flex-start;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   border-bottom-left-radius: 0;
