@@ -33,12 +33,14 @@
     "next-themes": "^0.4.6",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "ts-jest": "^29.4.9"
+    "ts-jest": "^29.4.9",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
     "@types/node": "^25.6.0",
     "@types/react": "^19.2.14",
+    "@types/xml2js": "^0.4.14",
     "typescript": "^6.0.3"
   }
 }

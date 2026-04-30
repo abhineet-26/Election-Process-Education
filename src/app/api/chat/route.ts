@@ -1,66 +1,61 @@
 import { NextResponse } from 'next/server';
+import { GoogleGenAI } from '@google/genai';
 
-// Since the user doesn't have an API key, we'll simulate the Gemini API
-// with a focused, rule-based responses for the Indian Election Context.
-// If an API key is provided later, this can be swapped out for @google/genai
-
-const INDIAN_ELECTION_KNOWLEDGE = [
-  {
-    keywords: ["register", "how to vote", "voter id", "apply", "epic"],
-    response: "To register to vote in India, you must be an Indian citizen and 18 years or older on the qualifying date (usually Jan 1st). You can apply online through the Voter's Service Portal (voters.eci.gov.in) using Form 6. You will need proof of age, proof of residence, and a passport-sized photograph. Once processed, you will receive your Electors Photo Identity Card (EPIC)."
-  },
-  {
-    keywords: ["who can vote", "eligibility", "age", "nri"],
-    response: "Any Indian citizen who is 18 years of age or older on the qualifying date is eligible to vote. Non-Resident Indians (NRIs) can also vote but they must be present at their respective polling station in India on election day; postal ballots are not yet available for NRIs."
-  },
-  {
-    keywords: ["where", "polling booth", "station", "find"],
-    response: "You can find your polling booth on the Voter's Service Portal by searching your name in the Electoral Roll or by entering your EPIC number. Alternatively, you can use the 'Voter Helpline' mobile app provided by the Election Commission of India."
-  },
-  {
-    keywords: ["process", "election day", "evm", "vvpat", "steps"],
-    response: "On election day: 1. Go to your polling booth with your Voter ID or approved alternate ID. 2. A polling official will check your name on the voter list and your ID. 3. Another official will ink your finger, give you a slip, and take your signature. 4. Deposit the slip with the third official. 5. Proceed to the Electronic Voting Machine (EVM). Press the blue button next to your chosen candidate's symbol. A red light will glow, and you will hear a beep. 6. Check the VVPAT machine's glass window to verify a slip with your candidate's details printed on it."
-  },
-  {
-    keywords: ["timelines", "when", "dates", "schedule"],
-    response: "Election dates in India are announced by the Election Commission of India (ECI) through a Model Code of Conduct notification. General Elections for the Lok Sabha are held every 5 years, usually occurring in multiple phases across April and May. State assembly elections happen on their own 5-year cycles."
-  },
-  {
-    keywords: ["nota", "none of the above"],
-    response: "If you do not wish to vote for any of the candidates, you can choose NOTA (None of the Above) on the EVM. It is usually the last button on the machine."
-  }
-];
-
-function generateSimulatedResponse(userMessage: string) {
-  const lowerMessage = userMessage.toLowerCase();
-  
-  for (const item of INDIAN_ELECTION_KNOWLEDGE) {
-    if (item.keywords.some(keyword => lowerMessage.includes(keyword))) {
-      return item.response;
-    }
-  }
-
-  return "That's a great question about the Indian election process! While I'm still learning, you can always find official and comprehensive information on the Election Commission of India's website (eci.gov.in) or the Voter's Service Portal (voters.eci.gov.in). Do you have questions about registering, polling booths, or the voting process?";
+// Initialize the SDK. It will automatically pick up process.env.GEMINI_API_KEY
+// We wrap it in a try-catch or conditional to handle the case where the key isn't provided yet.
+let ai: GoogleGenAI | null = null;
+try {
+  ai = new GoogleGenAI({});
+} catch (error) {
+  console.warn("Gemini API key not found. The chatbot will return an error message to the user.");
 }
+
+const SYSTEM_PROMPT = `
+You are the ultimate Indian Election Process Assistant. 
+You are an expert on the Election Commission of India (ECI), the Constitution, the Model Code of Conduct, Electronic Voting Machines (EVMs), and the entire process of voting in India.
+Your goal is to answer ANY question a first-time voter or citizen has about the election process accurately, neutrally, and clearly.
+
+Key Guidelines:
+1. Be encouraging, accessible, and polite.
+2. Provide factual information based on ECI rules.
+3. If asked about a specific political party or candidate, remain strictly neutral and objective. Do NOT endorse or criticize any party.
+4. Explain acronyms (like EVM, VVPAT, EPIC, NOTA) simply.
+5. If you do not know the answer, advise the user to visit the official ECI website (eci.gov.in).
+6. Format your responses using markdown for readability (bullet points, bold text).
+`;
 
 export async function POST(req: Request) {
   try {
-    const { message } = await req.json();
+    const { messages } = await req.json();
 
-    if (!message) {
-      return NextResponse.json({ error: "Message is required" }, { status: 400 });
+    if (!ai) {
+      return NextResponse.json({
+        content: "Hello! I am ready to be your ultimate election assistant. However, the site administrator needs to add a **Gemini API Key** to the `.env.local` file for me to work! \n\nYou can get one for free at [Google AI Studio](https://aistudio.google.com/)."
+      });
     }
 
-    // Artificial delay to simulate network request
-    await new Promise((resolve) => setTimeout(resolve, 800 + Math.random() * 500));
+    // Convert the generic message format to the Gemini SDK format
+    const formattedMessages = messages.map((msg: any) => ({
+      role: msg.role === 'user' ? 'user' : 'model',
+      parts: [{ text: msg.content }]
+    }));
 
-    const reply = generateSimulatedResponse(message);
+    // Add the system prompt as the first message from the user, to set context.
+    // In newer SDKs, there's a specific systemInstruction parameter.
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: formattedMessages,
+      config: {
+        systemInstruction: SYSTEM_PROMPT,
+        temperature: 0.2, // Keep it factual
+      }
+    });
 
-    return NextResponse.json({ reply });
-  } catch (error) {
-    console.error("API Route Error:", error);
+    return NextResponse.json({ content: response.text });
+  } catch (error: any) {
+    console.error('Chat API Error:', error);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { error: 'Failed to process chat request' },
       { status: 500 }
     );
   }

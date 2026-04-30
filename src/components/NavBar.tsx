@@ -5,10 +5,10 @@ import styles from "../styles/NavBar.module.css";
 
 const navItems = [
   { id: "hero", label: "Home" },
+  { id: "news", label: "News" },
+  { id: "process", label: "Process" },
   { id: "why-vote", label: "Why Vote" },
-  { id: "announcements", label: "Dates" },
   { id: "assistant", label: "Assistant" },
-  { id: "contact", label: "Contact" },
 ];
 
 export default function NavBar() {
