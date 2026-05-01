@@ -6,9 +6,13 @@ import ChatInterface from '../src/components/ChatInterface';
 global.fetch = jest.fn(() =>
   Promise.resolve({
     ok: true,
-    json: () => Promise.resolve({ reply: 'Test response from bot' }),
+    json: () => Promise.resolve({ content: 'Test response from bot' }),
   })
 ) as jest.Mock;
+
+jest.mock('react-markdown', () => (props: any) => {
+  return <>{props.children}</>
+})
 
 describe('ChatInterface', () => {
   beforeEach(() => {
@@ -51,7 +55,7 @@ describe('ChatInterface', () => {
     // Verify fetch was called correctly
     expect(fetch).toHaveBeenCalledWith('/api/chat', expect.objectContaining({
       method: 'POST',
-      body: JSON.stringify({ message: 'How to register?' })
+      body: JSON.stringify({ messages: [{ role: 'user', content: 'How to register?' }] })
     }));
   });
 

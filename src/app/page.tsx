@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import ChatInterface from "../components/ChatInterface";
 import styles from "../styles/Home.module.css";
 import { Vote, Users, ShieldCheck, Newspaper, HelpCircle, Activity } from "lucide-react";
@@ -33,7 +34,7 @@ export default function Home() {
           </p>
         </div>
         <div className={styles.illustrationWrapper}>
-          <img src="/illustrations/evm_illustration_1777549038393.png" alt="EVM Machine" className={styles.illustration} style={{ maxWidth: '600px' }} />
+          <Image src="/illustrations/evm_illustration_1777549038393.png" alt="EVM Machine" width={600} height={600} className={styles.illustration} />
         </div>
       </section>
 
@@ -117,7 +118,26 @@ export default function Home() {
         </div>
         
         <div className={styles.illustrationWrapper}>
-          <img src="/illustrations/voter_id_illustration_1777549052984.png" alt="Voter ID" className={styles.illustration} style={{ maxWidth: '500px' }} />
+          <Image src="/illustrations/voter_id_illustration_1777549052984.png" alt="Voter ID" width={500} height={500} className={styles.illustration} />
+        </div>
+      </section>
+
+      {/* Universal Quick Links Section */}
+      <section id="quick-links" className={styles.section} style={{ minHeight: 'auto', padding: '4rem 2rem' }}>
+        <h2 className="text-gradient" style={{ fontSize: '2.5rem', marginBottom: '2rem', textAlign: 'center' }}>Official Resources</h2>
+        <div className={styles.quickLinksGrid} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem', width: '100%', maxWidth: '1000px' }}>
+          <a href="https://eci.gov.in/" target="_blank" rel="noopener noreferrer" className={`${styles.card} glass-panel`} style={{ textDecoration: 'none', textAlign: 'center', padding: '2rem 1.5rem' }}>
+            <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Election Commission</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Official announcements and updates.</p>
+          </a>
+          <a href="https://voters.eci.gov.in/" target="_blank" rel="noopener noreferrer" className={`${styles.card} glass-panel`} style={{ textDecoration: 'none', textAlign: 'center', padding: '2rem 1.5rem' }}>
+            <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Voter Services Portal</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Apply for Voter ID online.</p>
+          </a>
+          <a href="https://eci.gov.in/voter/voter/" target="_blank" rel="noopener noreferrer" className={`${styles.card} glass-panel`} style={{ textDecoration: 'none', textAlign: 'center', padding: '2rem 1.5rem' }}>
+            <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>General Instructions</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Rules and guidelines for voters.</p>
+          </a>
         </div>
       </section>
 
@@ -143,7 +163,7 @@ export default function Home() {
         </div>
         
         <div className={styles.illustrationWrapper}>
-          <img src="/illustrations/ballot_illustration_1777549068265.png" alt="Ballot Box" className={styles.illustration} style={{ maxWidth: '400px' }} />
+          <Image src="/illustrations/ballot_illustration_1777549068265.png" alt="Ballot Box" width={400} height={400} className={styles.illustration} />
         </div>
       </section>
 
@@ -163,24 +183,71 @@ export default function Home() {
       {/* Contact Section */}
       <section id="contact" className={styles.section}>
         <h2 className="text-gradient" style={{ fontSize: '3rem', marginBottom: '1rem' }}>Get in Touch</h2>
-        <p style={{ color: 'var(--text-secondary)', textAlign: 'center' }}>
+        <p style={{ color: 'var(--text-secondary)', textAlign: 'center', marginBottom: '2rem' }}>
           Need more help or have feedback about this platform?
         </p>
-        <form className={`${styles.contactForm} glass-panel`} onSubmit={(e) => e.preventDefault()}>
-          <div className={styles.inputGroup}>
-            <label htmlFor="name" style={{ fontWeight: '500' }}>Name</label>
-            <input type="text" id="name" className={styles.input} placeholder="Your name" />
+        
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', width: '100%', maxWidth: '1000px' }}>
+          {/* Contact Form */}
+          <form 
+            className={`${styles.contactForm} glass-panel`} 
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const formData = new FormData(e.currentTarget);
+              const name = formData.get('name');
+              const email = formData.get('email');
+              const message = formData.get('message');
+              
+              if (!name || !email || !message) return;
+              
+              try {
+                const res = await fetch('/api/contact', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ name, email, message })
+                });
+                if (res.ok) {
+                  alert('Message sent successfully! Saved to GCP Firestore.');
+                  (e.target as HTMLFormElement).reset();
+                } else {
+                  alert('Failed to send message.');
+                }
+              } catch (error) {
+                alert('Error sending message.');
+              }
+            }}
+          >
+            <div className={styles.inputGroup}>
+              <label htmlFor="name" style={{ fontWeight: '500' }}>Name</label>
+              <input type="text" id="name" name="name" className={styles.input} placeholder="Your name" required aria-label="Name" />
+            </div>
+            <div className={styles.inputGroup}>
+              <label htmlFor="email" style={{ fontWeight: '500' }}>Email</label>
+              <input type="email" id="email" name="email" className={styles.input} placeholder="Your email address" required aria-label="Email" />
+            </div>
+            <div className={styles.inputGroup}>
+              <label htmlFor="message" style={{ fontWeight: '500' }}>Message</label>
+              <textarea id="message" name="message" rows={4} className={styles.input} placeholder="How can we help?" required aria-label="Message"></textarea>
+            </div>
+            <button type="submit" className={styles.submitBtn} aria-label="Submit Contact Form">Send Message</button>
+          </form>
+
+          {/* Google Maps Embed */}
+          <div className="glass-panel" style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '1rem', height: '100%' }}>
+            <h3 style={{ fontSize: '1.2rem', color: 'var(--text-primary)' }}>Election Commission HQ</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Nirvachan Sadan, Ashoka Road, New Delhi 110001</p>
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.2619717647225!2d77.2105151!3d28.6219154!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd347ec05bd9%3A0xc4842a22216bbd9a!2sElection%20Commission%20of%20India!5e0!3m2!1sen!2sus!4v1714571987515!5m2!1sen!2sus" 
+              width="100%" 
+              height="100%" 
+              style={{ border: 0, borderRadius: 'var(--radius-md)', minHeight: '300px', flexGrow: 1 }} 
+              allowFullScreen={true} 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Google Map of Election Commission of India"
+            ></iframe>
           </div>
-          <div className={styles.inputGroup}>
-            <label htmlFor="email" style={{ fontWeight: '500' }}>Email</label>
-            <input type="email" id="email" className={styles.input} placeholder="Your email address" />
-          </div>
-          <div className={styles.inputGroup}>
-            <label htmlFor="message" style={{ fontWeight: '500' }}>Message</label>
-            <textarea id="message" rows={4} className={styles.input} placeholder="How can we help?"></textarea>
-          </div>
-          <button type="button" className={styles.submitBtn}>Send Message</button>
-        </form>
+        </div>
       </section>
     </main>
   );

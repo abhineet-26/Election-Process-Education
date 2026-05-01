@@ -4,7 +4,7 @@
   "description": "Create an assistant that helps users understand the election process, timelines, and steps in an interactive and easy-to-follow way.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/abhineet-26/Election-Process-Education#readme",
   "dependencies": {
+    "@google-cloud/firestore": "^8.5.0",
     "@google/genai": "^1.51.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
