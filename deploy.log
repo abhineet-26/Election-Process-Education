@@ -1,0 +1,4 @@
+Building using Dockerfile and deploying container to Cloud Run service [election-assistant] in project [composed-arch-494911-s1] region [us-central1]
+Building and deploying new service...
+Validating configuration.........done
+Uploading sources..................................................done
