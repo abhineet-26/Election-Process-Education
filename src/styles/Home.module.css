@@ -159,8 +159,8 @@
 /* News Section */
 .newsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
   width: 100%;
   margin-top: 2rem;
 }
@@ -172,78 +172,102 @@
   gap: 0.5rem;
   text-decoration: none;
   color: inherit;
+  transition: all 0.3s ease;
+  height: 100%;
 }
 
 .newsCard:hover {
   transform: translateY(-5px);
   border-color: var(--accent);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .newsDate {
   font-size: 0.8rem;
   color: var(--accent);
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .newsPublisher {
   font-size: 0.8rem;
   color: var(--text-secondary);
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--glass-border);
 }
 
 .newsTitle {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.2rem;
+  font-weight: 700;
   line-height: 1.4;
+  margin-bottom: 0.5rem;
 }
 
-/* Process Section */
+.newsSnippet {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Process Section (Landscape Grid) */
 .processSteps {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   width: 100%;
-  max-width: 800px;
+  max-width: 1200px;
   margin-top: 3rem;
   position: relative;
 }
 
-.processSteps::before {
-  content: '';
-  position: absolute;
-  left: 2rem;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: var(--glass-border);
-  z-index: 0;
-}
-
 .processStep {
   display: flex;
-  align-items: flex-start;
-  gap: 2rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
   position: relative;
   z-index: 1;
+  text-align: center;
 }
 
 .stepNumber {
-  width: 4rem;
-  height: 4rem;
+  width: 4.5rem;
+  height: 4.5rem;
   border-radius: 50%;
   background: var(--accent);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: 800;
   flex-shrink: 0;
-  box-shadow: 0 0 20px var(--accent-glow);
+  box-shadow: 0 0 25px var(--accent-glow);
+  z-index: 2;
 }
 
 .stepContent {
   padding: 2rem;
+  width: 100%;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stepTimeline {
+  font-size: 0.85rem;
+  color: var(--accent);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
 }
 
 .illustrationWrapper {

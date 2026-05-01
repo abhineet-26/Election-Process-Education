@@ -43,7 +43,7 @@ export default function Home() {
           <Activity size={40} /> Live Election News
         </h2>
         <p style={{ color: 'var(--text-secondary)', textAlign: 'center', maxWidth: '600px' }}>
-          Stay updated with the latest alerts and news regarding Indian elections fetched in real-time.
+          Stay updated with the latest alerts and news regarding Indian elections fetched in real-time. Click to read the full source articles.
         </p>
         
         {loadingNews ? (
@@ -54,47 +54,64 @@ export default function Home() {
               <a key={item.id} href={item.link} target="_blank" rel="noopener noreferrer" className={`${styles.newsCard} glass-panel`}>
                 <span className={styles.newsDate}>{item.pubDate}</span>
                 <h3 className={styles.newsTitle}>{item.title}</h3>
-                <span className={styles.newsPublisher}>{item.publisher}</span>
+                {item.snippet && <p className={styles.newsSnippet}>{item.snippet}</p>}
+                <span className={styles.newsPublisher}>Source: {item.publisher}</span>
               </a>
             ))}
           </div>
         )}
       </section>
 
-      {/* Step by Step Process Section */}
+      {/* Comprehensive Election Journey Section */}
       <section id="process" className={styles.section}>
-        <h2 className="text-gradient" style={{ fontSize: '3rem', marginBottom: '1rem' }}>How to Vote</h2>
+        <h2 className="text-gradient" style={{ fontSize: '3rem', marginBottom: '1rem', textAlign: 'center' }}>The Election Journey</h2>
         <p style={{ color: 'var(--text-secondary)', textAlign: 'center', maxWidth: '600px' }}>
-          The complete step-by-step process of casting your vote at the polling booth.
+          Understanding the timeline and phases of the Indian election process, from registration to results.
         </p>
 
         <div className={styles.processSteps}>
           <div className={styles.processStep}>
             <div className={styles.stepNumber}>1</div>
             <div className={`${styles.stepContent} glass-panel`}>
-              <h3>First Polling Official</h3>
-              <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem' }}>They will check your name on the voter list and verify your ID document.</p>
+              <span className={styles.stepTimeline}>Continuous (Ends ~1 Month Before)</span>
+              <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>Voter Registration</h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>Verify your name on the electoral roll. If not registered, submit Form 6 to the ECI online or via the Voter Helpline app.</p>
             </div>
           </div>
+          
           <div className={styles.processStep}>
             <div className={styles.stepNumber}>2</div>
             <div className={`${styles.stepContent} glass-panel`}>
-              <h3>Second Polling Official</h3>
-              <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem' }}>They will ink your finger, give you a slip, and take your signature on a register (Form 17A).</p>
+              <span className={styles.stepTimeline}>~3 Weeks Before Polling</span>
+              <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>Nominations & Scrutiny</h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>Candidates file nominations. Use the 'Know Your Candidate' (KYC) app to review their affidavits and background.</p>
             </div>
           </div>
+          
           <div className={styles.processStep}>
             <div className={styles.stepNumber}>3</div>
             <div className={`${styles.stepContent} glass-panel`}>
-              <h3>Third Polling Official</h3>
-              <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem' }}>You will hand over the slip to them, and they will enable the EVM for you.</p>
+              <span className={styles.stepTimeline}>Ends 48 Hours Before Poll</span>
+              <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>Campaigning Period</h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>Parties hold rallies. Campaigning officially ends 48 hours before voting day to ensure a peaceful "period of silence".</p>
             </div>
           </div>
+          
           <div className={styles.processStep}>
             <div className={styles.stepNumber}>4</div>
             <div className={`${styles.stepContent} glass-panel`}>
-              <h3>Cast Your Vote</h3>
-              <p style={{ color: 'var(--text-secondary)', marginTop: '0.5rem' }}>Press the blue button on the EVM next to your chosen candidate. Verify your vote via the VVPAT slip printed.</p>
+              <span className={styles.stepTimeline}>Voting Day</span>
+              <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>Polling Booth</h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>Check ID with 1st Official, get inked by 2nd, and verify via VVPAT after pressing the EVM button enabled by the 3rd Official.</p>
+            </div>
+          </div>
+          
+          <div className={styles.processStep}>
+            <div className={styles.stepNumber}>5</div>
+            <div className={`${styles.stepContent} glass-panel`}>
+              <span className={styles.stepTimeline}>Post-Election</span>
+              <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>Counting & Results</h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>EVMs are kept in strongrooms under heavy security until counting day. Results are verified and declared by the ECI.</p>
             </div>
           </div>
         </div>

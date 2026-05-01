@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 import styles from "../styles/ChatInterface.module.css";
 
 type Message = {
@@ -94,7 +95,13 @@ export default function ChatInterface() {
               msg.role === "user" ? styles.userMessage : styles.botMessage
             }`}
           >
-            {msg.content}
+            {msg.role === "user" ? (
+              msg.content
+            ) : (
+              <div className={styles.markdown}>
+                <ReactMarkdown>{msg.content}</ReactMarkdown>
+              </div>
+            )}
           </div>
         ))}
         {isLoading && (

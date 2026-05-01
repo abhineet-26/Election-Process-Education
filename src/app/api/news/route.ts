@@ -21,10 +21,23 @@ export async function GET() {
       const publisher = titleParts.length > 1 ? titleParts.pop() : 'News Source';
       const title = titleParts.join(' - ');
 
+      // Extract description and remove HTML tags
+      let snippet = '';
+      if (item.description && item.description[0]) {
+        // Strip HTML tags using regex
+        snippet = item.description[0].replace(/<[^>]*>?/gm, '').trim();
+        // Decode common entities
+        snippet = snippet.replace(/&nbsp;/g, ' ').replace(/&quot;/g, '"');
+        if (snippet.length > 150) {
+          snippet = snippet.substring(0, 147) + '...';
+        }
+      }
+
       return {
         id: item.guid[0]._,
         title: title,
         link: item.link[0],
+        snippet: snippet,
         pubDate: new Date(item.pubDate[0]).toLocaleDateString('en-IN', {
           day: 'numeric',
           month: 'short',
