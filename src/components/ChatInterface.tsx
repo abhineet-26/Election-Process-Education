@@ -39,17 +39,23 @@ export default function ChatInterface() {
       content: input.trim(),
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);
     setInput("");
     setIsLoading(true);
 
     try {
+      // Send the chat history (excluding the hardcoded welcome message) to the backend
+      const history = newMessages
+        .filter((msg) => msg.id !== "welcome")
+        .map((msg) => ({ role: msg.role, content: msg.content }));
+
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: userMessage.content }),
+        body: JSON.stringify({ messages: history }),
       });
 
       if (!response.ok) {
@@ -61,7 +67,7 @@ export default function ChatInterface() {
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: data.reply,
+        content: data.content || "I'm sorry, I couldn't generate a response.",
       };
 
       setMessages((prev) => [...prev, botMessage]);
